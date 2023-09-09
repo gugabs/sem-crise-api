@@ -12,11 +12,12 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-            .authorizeHttpRequests()
-            .requestMatchers("/auth/**").permitAll();
+      .authorizeHttpRequests()
+      .requestMatchers("/auth/**").anonymous()
+      .requestMatchers("/transaction").anonymous();
 
     http
-            .csrf().disable();
+      .csrf().disable();
 
     return http.build();
   }

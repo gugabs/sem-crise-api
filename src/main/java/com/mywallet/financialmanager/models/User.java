@@ -1,5 +1,6 @@
 package com.mywallet.financialmanager.models;
 
+import com.mywallet.financialmanager.dtos.UserDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -26,6 +27,13 @@ public class User {
   @NotBlank(message = "Password cannot be blank")
   private String password;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
   private List<Transaction> transactions;
+
+  public User() {}
+
+  public User(UserDTO user) {
+    this.email = user.email();
+    this.password = user.password();
+  }
 }

@@ -1,7 +1,6 @@
 package com.mywallet.financialmanager.controllers;
 
 import com.mywallet.financialmanager.dtos.UserDTO;
-import com.mywallet.financialmanager.models.User;
 import com.mywallet.financialmanager.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,19 +11,12 @@ import java.util.HashMap;
 @RestController
 public class AuthController {
   @Autowired
-  private AuthService userService;
+  private AuthService authService;
 
   @PostMapping("/auth/sign-up")
   @ResponseStatus(HttpStatus.CREATED)
-  public HashMap<String, Object> SignUp(@RequestBody UserDTO user) {
-    HashMap<String, Object> response = new HashMap<>();
-
-    User createdUser = this.userService.signUp(user);
-
-    response.put("id", createdUser.getId());
-    response.put("email", createdUser.getEmail());
-
-    return response;
+  public void SignUp(@RequestBody UserDTO user) {
+    this.authService.signUp(user);
   }
 
   @PostMapping("/auth/sign-in")
@@ -32,7 +24,7 @@ public class AuthController {
   public HashMap<String, String> SignIn(@RequestBody UserDTO user) {
     HashMap<String, String> response = new HashMap<>();
 
-    response.put("token", this.userService.signIn(user));
+    response.put("token", this.authService.signIn(user));
 
     return response;
   }

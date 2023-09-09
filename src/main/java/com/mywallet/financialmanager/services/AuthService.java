@@ -45,18 +45,15 @@ public class AuthService {
     return duplicatedUser != null;
   }
 
-  public User signUp(UserDTO user) {
+  public void signUp(UserDTO user) {
     Boolean isDuplicatedUser = isDuplicatedUser(user.email());
 
     if (isDuplicatedUser) {
       throw new DuplicatedEmailException("E-mail already in use");
     }
 
-    User newUser = new User();
-    newUser.setEmail(user.email());
-    newUser.setPassword(encodePassword(user.password()));
-
-    return this.userRepository.save(newUser);
+    User newUser = new User(user);
+    this.userRepository.save(newUser);
   }
 
   public String signIn(UserDTO user) {
